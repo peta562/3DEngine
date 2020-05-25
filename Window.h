@@ -19,6 +19,11 @@ public:
 	virtual void onUpdate();
 	virtual void onDestroy();
 
+	//Sizes
+	RECT getClientWindowRect();
+
+	void setHWND(HWND hwnd);
+
 	~Window();
 protected:
 	//The unique instance number of the program window

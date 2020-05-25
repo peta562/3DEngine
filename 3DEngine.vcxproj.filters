@@ -13,6 +13,9 @@
     <Filter Include="3DEngine\GraphicsEngine">
       <UniqueIdentifier>{4cc7ce34-27a1-4512-b0e4-eea5a2111969}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3DEngine\SwapChain">
+      <UniqueIdentifier>{15c6ba5e-1576-4926-8014-c5100ae960cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -27,6 +30,9 @@
     <ClCompile Include="GraphicsEngine.cpp">
       <Filter>3DEngine\GraphicsEngine</Filter>
     </ClCompile>
+    <ClCompile Include="SwapChain.cpp">
+      <Filter>3DEngine\SwapChain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -37,6 +43,9 @@
     </ClInclude>
     <ClInclude Include="GraphicsEngine.h">
       <Filter>3DEngine\GraphicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="SwapChain.h">
+      <Filter>3DEngine\SwapChain</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

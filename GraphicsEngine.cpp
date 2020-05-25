@@ -1,4 +1,5 @@
 #include "GraphicsEngine.h"
+#include "SwapChain.h"
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -40,11 +41,20 @@ bool GraphicsEngine::init()
 		return false;
 	}
 	
+	d3d_device->QueryInterface(__uuidof(IDXGIDevice), (void**)&dxgi_device);
+	dxgi_device->GetParent(__uuidof(IDXGIAdapter), (void**)&dxgi_adapter);
+	dxgi_adapter->GetParent(__uuidof(IDXGIFactory), (void**)&dxgi_factory);
+	
+
 	return true;
 }
 
 bool GraphicsEngine::release()
 {
+	dxgi_device->Release();
+	dxgi_adapter->Release();
+	dxgi_factory->Release();
+
 	imn_context->Release();
 	d3d_device->Release();
 	return true;
@@ -59,4 +69,9 @@ GraphicsEngine* GraphicsEngine::get()
 {
 	static GraphicsEngine engine;
 	return &engine;
+}
+
+SwapChain* GraphicsEngine::createSwapChain()
+{
+	return new SwapChain();
 }

@@ -86,6 +86,8 @@ bool Window::broadcast()
 {
 	MSG msg;
 
+	this->onUpdate();
+
 	//Message in the application message processing queue
 	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 	{
@@ -93,7 +95,7 @@ bool Window::broadcast()
 		DispatchMessage(&msg);
 	}
 
-	this->onUpdate();
+	
 
 	Sleep(1);
 

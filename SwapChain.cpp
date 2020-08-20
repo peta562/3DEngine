@@ -30,11 +30,28 @@ bool SwapChain::init(HWND hwnd, UINT width, UINT height)
 
 	//Create the swap chain for the window indicated by HWND parameter
 	HRESULT hr = GraphicsEngine::get()->dxgi_factory->CreateSwapChain(device, &dsc, &swap_chain);
+	
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	ID3D11Texture2D* buffer = NULL;
+	hr = swap_chain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&buffer);
+	
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	hr = device->CreateRenderTargetView(buffer, NULL, &rtv);
+	buffer->Release();
 
 	if (FAILED(hr))
 	{
 		return false;
 	}
+
 	return true;
 }
 
@@ -44,4 +61,10 @@ bool SwapChain::release()
 	delete this;
 	return true;
 
+}
+
+bool SwapChain::present(bool vsync)
+{
+	swap_chain->Present(vsync, NULL); //sync interval (false - presentation occurs immidiately w/o any sync)
+	return true;
 }

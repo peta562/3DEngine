@@ -16,6 +16,9 @@
     <Filter Include="3DEngine\SwapChain">
       <UniqueIdentifier>{15c6ba5e-1576-4926-8014-c5100ae960cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3DEngine\DeviceContext">
+      <UniqueIdentifier>{03dceb51-2c29-4f8b-bb88-cde3070977d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,6 +36,9 @@
     <ClCompile Include="SwapChain.cpp">
       <Filter>3DEngine\SwapChain</Filter>
     </ClCompile>
+    <ClCompile Include="DeviceContext.cpp">
+      <Filter>3DEngine\DeviceContext</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppWindow.h">
@@ -46,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="SwapChain.h">
       <Filter>3DEngine\SwapChain</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceContext.h">
+      <Filter>3DEngine\DeviceContext</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

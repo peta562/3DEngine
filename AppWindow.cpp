@@ -1,31 +1,68 @@
 #include "AppWindow.h"
 
+struct Vector3
+{
+	float x, y, z;
+};
 
-
+struct Vertex
+{
+	Vector3 position;
+};
 void AppWindow::onCreate()
 {
 	Window::onCreate();
 	GraphicsEngine::get()->init();
-	GraphicsEngine::get()->createSwapChain();
+
 	swap_chain = GraphicsEngine::get()->createSwapChain();
 
 	RECT rc = this->getClientWindowRect();
 
 	swap_chain->init(this->hwnd, rc.right - rc.left, rc.bottom - rc.top);
+	
+
+	// {x, y, z} from -1 to 1
+	Vertex list[] =
+	{
+		{-0.5f, -0.5f, 0.0f}, // pos1
+		{0.0f, 0.5f, 0.0f}, // pos2
+		{0.5f, -0.5f, 0.0f} // pos3
+	};
+
+	vertex_buffer=GraphicsEngine::get()->createVertexBuffer();
+	UINT size_list = ARRAYSIZE(list);
+
+	GraphicsEngine::get()->createShaders();
+
+	void* shader_byte_code = nullptr;
+	UINT size_shader = 0;
+	GraphicsEngine::get()->getShaderBufferAndSize(&shader_byte_code, &size_shader);
+
+
+	vertex_buffer->load(list, sizeof(Vertex), size_list, shader_byte_code, size_shader);
 }
 
 void AppWindow::onUpdate()
 {
 	Window::onUpdate();
-	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->swap_chain, 1, 0.5, 0.3, 1);
+	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->swap_chain, 0, 0.2f, 0.6f, 1);
 
-	swap_chain->present(false);
+	RECT rc = this->getClientWindowRect();
+
+	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
+	GraphicsEngine::get()->setShaders();
+	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(vertex_buffer);
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleList(vertex_buffer->getSizeVertexList(), 0);
+
+
+	swap_chain->present(true);
 
 }
 
 void AppWindow::onDestroy()
 {
 	Window::onDestroy();
+	vertex_buffer->release();
 	swap_chain->release();
 	GraphicsEngine::get()->release();
 }

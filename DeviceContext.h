@@ -2,6 +2,13 @@
 #include <d3d11.h>
 
 class SwapChain;
+class VertexBuffer;
+
+/*	Device Context allow us to generate the rendering commands to the video driver 
+	for the execution
+	The driver then will redirect the commands to
+	the GPU or the CPU for the elaborationand the final rendering on the screen
+*/
 
 class DeviceContext
 {
@@ -10,9 +17,13 @@ public:
 	~DeviceContext();
 	
 	bool release();
-	bool clearRenderTargetColor(SwapChain* swap_chain,float red, float green, float blue, float alpha);
+	void clearRenderTargetColor(SwapChain* swap_chain,float red, float green, float blue, float alpha);
+	void setVertexBuffer(VertexBuffer* vertex_buffer);
+	void drawTriangleList(UINT vertex_count, UINT start_vertex_index);
+	void setViewportSize(UINT width, UINT height);  //Set a viewport of a render target
 
 private:
 	ID3D11DeviceContext* device_context;
+
 };
 

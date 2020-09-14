@@ -15,9 +15,9 @@ public:
 	bool broadcast();
 
 	//Events
-	virtual void onCreate();
-	virtual void onUpdate();
-	virtual void onDestroy();
+	virtual void onCreate() = 0;
+	virtual void onUpdate() = 0;
+	virtual void onDestroy() = 0		;
 
 	//Sizes
 	RECT getClientWindowRect();

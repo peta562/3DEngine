@@ -55,3 +55,11 @@ void DeviceContext::setViewportSize(UINT width, UINT height)
 	viewport.MaxDepth = 1.0f;
 	device_context->RSSetViewports(1, &viewport);
 }
+
+void DeviceContext::drawTriangleStrip(UINT vertex_count, UINT start_vertex_index)
+{
+	device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	device_context->Draw(vertex_count, start_vertex_index);
+}
+

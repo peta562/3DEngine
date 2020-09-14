@@ -25,8 +25,12 @@ void AppWindow::onCreate()
 	Vertex list[] =
 	{
 		{-0.5f, -0.5f, 0.0f}, // pos1
-		{0.0f, 0.5f, 0.0f}, // pos2
-		{0.5f, -0.5f, 0.0f} // pos3
+		{-0.5f, 0.5f, 0.0f}, // pos2
+		{0.5f, -0.5f, 0.0f}, // pos3
+		{0.4f, 0.2f, 0.0f}, // pos4
+		//{0.0f, -0.5f, 0.0f}, // pos5
+		//{-0.5f, -0.5f, 0.0f} // pos6
+
 	};
 
 	vertex_buffer=GraphicsEngine::get()->createVertexBuffer();
@@ -52,7 +56,7 @@ void AppWindow::onUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 	GraphicsEngine::get()->setShaders();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(vertex_buffer);
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleList(vertex_buffer->getSizeVertexList(), 0);
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(vertex_buffer->getSizeVertexList(), 0);
 
 
 	swap_chain->present(true);

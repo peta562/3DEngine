@@ -5,6 +5,7 @@
 #include "DeviceContext.h"
 #include "VertexBuffer.h"
 #include "VertexShader.h"
+#include "PixelShader.h"
 
 class AppWindow : public Window
 {
@@ -19,4 +20,5 @@ private:
 	SwapChain* swap_chain;
 	VertexBuffer* vertex_buffer;
 	VertexShader* vertex_shader;
+	PixelShader* pixel_shader;
 };

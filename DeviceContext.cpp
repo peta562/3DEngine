@@ -3,6 +3,7 @@
 #include "VertexBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
+#include "ConstantBuffer.h"
 
 
 
@@ -39,6 +40,16 @@ void DeviceContext::setVertexBuffer(VertexBuffer* vertex_buffer)
 
 	device_context->IASetInputLayout(vertex_buffer->input_layout);
 
+}
+
+void DeviceContext::setConstantBuffer(VertexShader* vertex_shader, ConstantBuffer* constant_buffer)
+{
+	device_context->VSSetConstantBuffers(0, 1, &constant_buffer->buffer);
+}
+
+void DeviceContext::setConstantBuffer(PixelShader* pixel_shader, ConstantBuffer* constant_buffer)
+{
+	device_context->PSSetConstantBuffers(0, 1, &constant_buffer->buffer);
 }
 
 void DeviceContext::drawTriangleList(UINT vertex_count, UINT start_vertex_index)

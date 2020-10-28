@@ -12,6 +12,7 @@ class AppWindow : public Window
 {
 public:
 	AppWindow() = default;
+	void updateQuadPosition();
 
 	// Initialize via Window
 	virtual void onCreate() override;
@@ -23,4 +24,11 @@ private:
 	VertexShader* vertex_shader;
 	PixelShader* pixel_shader;
 	ConstantBuffer* constant_buffer;
+private:
+	float old_delta;
+	float new_delta;
+	float delta_time;
+
+	float delta_pos;
+	float delta_scale;
 };

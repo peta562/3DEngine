@@ -1,24 +1,62 @@
 #include "AppWindow.h"
 #include <Windows.h>
+#include "Vector3D.h"
+#include "Matrix4x4.h"
 
-struct Vector3
-{
-	float x, y, z;
-};
+
 
 struct Vertex
 {
-	Vector3 position;
-	Vector3 new_position;
-	Vector3 color;
-	Vector3 new_color;
+	Vector3D position;
+	Vector3D new_position;
+	Vector3D color;
+	Vector3D new_color;
 };
 
 __declspec(align(16)) // because directX stored data in video memory in chanks of 16 bytes
 struct Constant
 {
+	Matrix4x4 world;
+	Matrix4x4 view;
+	Matrix4x4 projection;
 	unsigned int time;
 };
+
+void AppWindow::updateQuadPosition()
+{
+	Constant constant;
+	Matrix4x4 temp;
+
+	constant.time = ::GetTickCount64();
+
+	delta_pos += delta_time / 4.0f;
+
+	if (delta_pos > 1.0f)
+	{
+		delta_pos = 0;
+	}
+
+	delta_scale += delta_time / 1.0f;
+
+	
+
+	constant.world.setScale(Vector3D::lerp(Vector3D(0.5f, 0.5f, 0), Vector3D(1.0f, 1.0f, 0), (sin(delta_scale) + 1.0f / 2.0f)));
+	temp.setTranslation(Vector3D::lerp(Vector3D(-0.5f, -0.5f, 0), Vector3D(0.5f, 0.5f, 0), delta_pos));
+	
+	constant.world *= temp;
+
+	constant.view.setIdentity();
+	constant.projection.setOrtho
+	(
+		(this->getClientWindowRect().right - this->getClientWindowRect().left) / 400.0f,
+		(this->getClientWindowRect().bottom - this->getClientWindowRect().top) / 400.0f,
+		-4.0f,
+		4.0f
+	);
+
+
+	constant_buffer->update(GraphicsEngine::get()->getImmediateDeviceContext(), &constant);
+}
 
 void AppWindow::onCreate()
 {
@@ -35,12 +73,10 @@ void AppWindow::onCreate()
 	// {x, y, z} from -1 to 1
 	Vertex list[] =
 	{
-		{-0.5f, -0.5f, 0.0f,   -0.25f, -0.11f, 0.0f,   1, 0, 0,   1, 1, 1}, // pos1  new_pos1   color1  new_color1
-		{-0.5f, 0.5f, 0.0f,    -0.77f, 0.78f, 0.0f,    0, 1, 1,   0, 0, 1}, // pos2  new_pos2   color2  new_color2
-		{0.5f, -0.5f, 0.0f,    0.75f, -0.72f, 0.0f,    0, 0, 1,   1, 0, 0}, // pos3  new_pos3   color3  new_color3
-		{0.4f, 0.2f, 0.0f,     0.82f, 0.79f, 0.0f,     1, 1, 1,   0, 0, 1}, // pos4  new_pos4   color4  new_color4
-		//{0.0f, -0.5f, 0.0f}, // pos5
-		//{-0.5f, -0.5f, 0.0f} // pos6
+		{Vector3D(-0.3f, -0.2f, 0.0f),   Vector3D(-0.25f, -0.11f, 0.0f),   Vector3D(1, 0, 0),   Vector3D(1, 1, 1)}, // pos1  new_pos1   color1  new_color1
+		{Vector3D(-0.3f, 0.2f, 0.0f),    Vector3D(-0.77f, 0.78f, 0.0f),    Vector3D(0, 1, 1),   Vector3D(0, 0, 1)}, // pos2  new_pos2   color2  new_color2
+		{Vector3D(0.3f, -0.2f, 0.0f),   Vector3D(0.75f, -0.72f, 0.0f),   Vector3D(0, 0, 1),   Vector3D(1, 0, 0)}, // pos3  new_pos3   color3  new_color3
+		{Vector3D(0.3f, 0.2f, 0.0f),     Vector3D(0.82f, 0.79f, 0.0f),     Vector3D(1, 1, 1),   Vector3D(0, 0, 1)}, // pos4  new_pos4   color4  new_color4
 
 	};
 
@@ -50,18 +86,18 @@ void AppWindow::onCreate()
 
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
-	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-	
-	
-	vertex_shader = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
-	vertex_buffer->load(list, sizeof(Vertex), size_list, shader_byte_code, size_shader);
 
+	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	vertex_shader = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
+
+	vertex_buffer->load(list, sizeof(Vertex), size_list, shader_byte_code, size_shader);
 
 	GraphicsEngine::get()->releaseCompileShader();
 
 
 	GraphicsEngine::get()->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
 	pixel_shader = GraphicsEngine::get()->createPixelShader(shader_byte_code, size_shader);
+
 	GraphicsEngine::get()->releaseCompileShader();
 
 
@@ -82,10 +118,9 @@ void AppWindow::onUpdate()
 	RECT rc = this->getClientWindowRect();
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 	
-	Constant constant;
-	constant.time = ::GetTickCount64();
 
-	constant_buffer->update(GraphicsEngine::get()->getImmediateDeviceContext(), &constant);
+	updateQuadPosition();
+
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(vertex_shader, constant_buffer);
 	GraphicsEngine::get()->getImmediateDeviceContext()->setConstantBuffer(pixel_shader, constant_buffer);
@@ -102,6 +137,11 @@ void AppWindow::onUpdate()
 
 
 	swap_chain->present(true);
+
+
+	old_delta = new_delta;
+	new_delta = ::GetTickCount64();
+	delta_time = (old_delta) ? ((new_delta - old_delta) / 1000.0f) : 0;
 
 }
 

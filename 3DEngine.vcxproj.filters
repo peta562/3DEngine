@@ -7,29 +7,32 @@
     <Filter Include="3DEngine">
       <UniqueIdentifier>{e210c191-2275-473a-b277-73477cb95298}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3DEngine\WindowingSystem">
-      <UniqueIdentifier>{81160d9a-e09f-4835-8688-eeec882367e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3DEngine\GraphicsEngine">
       <UniqueIdentifier>{4cc7ce34-27a1-4512-b0e4-eea5a2111969}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3DEngine\SwapChain">
-      <UniqueIdentifier>{15c6ba5e-1576-4926-8014-c5100ae960cc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3DEngine\DeviceContext">
-      <UniqueIdentifier>{03dceb51-2c29-4f8b-bb88-cde3070977d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3DEngine\VertexBuffer">
-      <UniqueIdentifier>{fc8704ee-b810-436b-9821-ae5a0a0e2cb1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3DEngine\VertexShader">
-      <UniqueIdentifier>{e4ba47c6-4298-411a-8b20-6c7f1438a91a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3DEngine\PixelShader">
+    <Filter Include="3DEngine\GraphicsEngine\PixelShader">
       <UniqueIdentifier>{f43043f4-2537-449c-bac1-2e38f37bf786}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3DEngine\ConstantBuffer">
+    <Filter Include="3DEngine\GraphicsEngine\SwapChain">
+      <UniqueIdentifier>{15c6ba5e-1576-4926-8014-c5100ae960cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DEngine\GraphicsEngine\VertexBuffer">
+      <UniqueIdentifier>{fc8704ee-b810-436b-9821-ae5a0a0e2cb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DEngine\GraphicsEngine\VertexShader">
+      <UniqueIdentifier>{e4ba47c6-4298-411a-8b20-6c7f1438a91a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DEngine\GraphicsEngine\ConstantBuffer">
       <UniqueIdentifier>{ba70bcc8-db4e-4ea2-93e1-d95e9c0ef6eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DEngine\GraphicsEngine\DeviceContext">
+      <UniqueIdentifier>{03dceb51-2c29-4f8b-bb88-cde3070977d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DEngine\WindowingSystem">
+      <UniqueIdentifier>{81160d9a-e09f-4835-8688-eeec882367e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DEngine\Math">
+      <UniqueIdentifier>{78139834-5423-4153-9ef7-b00dd6b8488d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -46,22 +49,22 @@
       <Filter>3DEngine\GraphicsEngine</Filter>
     </ClCompile>
     <ClCompile Include="SwapChain.cpp">
-      <Filter>3DEngine\SwapChain</Filter>
+      <Filter>3DEngine\GraphicsEngine\SwapChain</Filter>
     </ClCompile>
     <ClCompile Include="DeviceContext.cpp">
-      <Filter>3DEngine\DeviceContext</Filter>
+      <Filter>3DEngine\GraphicsEngine\DeviceContext</Filter>
     </ClCompile>
     <ClCompile Include="VertexBuffer.cpp">
-      <Filter>3DEngine\VertexBuffer</Filter>
+      <Filter>3DEngine\GraphicsEngine\VertexBuffer</Filter>
     </ClCompile>
     <ClCompile Include="VertexShader.cpp">
-      <Filter>3DEngine\VertexShader</Filter>
+      <Filter>3DEngine\GraphicsEngine\VertexShader</Filter>
     </ClCompile>
     <ClCompile Include="PixelShader.cpp">
-      <Filter>3DEngine\PixelShader</Filter>
+      <Filter>3DEngine\GraphicsEngine\PixelShader</Filter>
     </ClCompile>
     <ClCompile Include="ConstantBuffer.cpp">
-      <Filter>3DEngine\ConstantBuffer</Filter>
+      <Filter>3DEngine\GraphicsEngine\ConstantBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,22 +78,28 @@
       <Filter>3DEngine\GraphicsEngine</Filter>
     </ClInclude>
     <ClInclude Include="SwapChain.h">
-      <Filter>3DEngine\SwapChain</Filter>
+      <Filter>3DEngine\GraphicsEngine\SwapChain</Filter>
     </ClInclude>
     <ClInclude Include="DeviceContext.h">
-      <Filter>3DEngine\DeviceContext</Filter>
+      <Filter>3DEngine\GraphicsEngine\DeviceContext</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">
-      <Filter>3DEngine\VertexBuffer</Filter>
+      <Filter>3DEngine\GraphicsEngine\VertexBuffer</Filter>
     </ClInclude>
     <ClInclude Include="VertexShader.h">
-      <Filter>3DEngine\VertexShader</Filter>
+      <Filter>3DEngine\GraphicsEngine\VertexShader</Filter>
     </ClInclude>
     <ClInclude Include="PixelShader.h">
-      <Filter>3DEngine\PixelShader</Filter>
+      <Filter>3DEngine\GraphicsEngine\PixelShader</Filter>
     </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
-      <Filter>3DEngine\ConstantBuffer</Filter>
+      <Filter>3DEngine\GraphicsEngine\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3D.h">
+      <Filter>3DEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix4x4.h">
+      <Filter>3DEngine\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -35,6 +35,30 @@ public:
 		matrix[2][2] = scale.z;
 	}
 
+	void setRotationX(float x)
+	{
+		matrix[1][1] = cos(x);
+		matrix[2][2] = cos(x);
+		matrix[2][1] = -sin(x);
+		matrix[1][2] = sin(x);
+	}
+
+	void setRotationY(float y)
+	{
+		matrix[0][0] = cos(y);
+		matrix[2][2] = cos(y);
+		matrix[2][0] = sin(y);
+		matrix[0][2] = -sin(y);
+	}
+
+	void setRotationZ(float z)
+	{
+		matrix[0][0] = cos(z);
+		matrix[1][1] = cos(z);
+		matrix[1][0] = -sin(z);
+		matrix[0][1] = sin(z);
+	}
+
 	void operator *=(const Matrix4x4& mat)
 	{
 		Matrix4x4 out;
@@ -57,7 +81,7 @@ public:
 		matrix[0][0] = 2.0f / width;
 		matrix[1][1] = 2.0f / height;
 		matrix[2][2] = 1.0f / (far_plane - near_plane);
-		matrix[3][3] = -(near_plane / ( far_plane - near_plane));
+		matrix[3][2] = -(near_plane / ( far_plane - near_plane));
 	}
 
 	~Matrix4x4()

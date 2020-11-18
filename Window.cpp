@@ -64,7 +64,7 @@ bool Window::init()
 
 
 
-	hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"DirectX Engine", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 768,
+	hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"DirectX Engine", WS_CAPTION|WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 768,
 		NULL, NULL, NULL, this);
 
 	if (!hwnd)
@@ -89,7 +89,7 @@ bool Window::broadcast()
 	this->onUpdate();
 
 	//Message in the application message processing queue
-	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0)
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);

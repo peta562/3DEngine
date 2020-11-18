@@ -6,6 +6,7 @@ class VertexBuffer;
 class VertexShader;
 class ConstantBuffer;
 class PixelShader;
+class IndexBuffer;
 
 /*	Device Context allow us to generate the rendering commands to the video driver 
 	for the execution
@@ -23,6 +24,7 @@ public:
 	void clearRenderTargetColor(SwapChain* swap_chain,float red, float green, float blue, float alpha);
 	
 	void setVertexBuffer(VertexBuffer* vertex_buffer);
+	void setIndexBuffer(IndexBuffer* index_buffer);
 
 	void setConstantBuffer(VertexShader* vertex_shader, ConstantBuffer* constant_buffer);
 	void setConstantBuffer(PixelShader* pixel_shader, ConstantBuffer* constant_buffer);
@@ -34,6 +36,7 @@ public:
 	
 	void drawTriangleStrip(UINT vertex_count, UINT start_vertex_index); //A triangular stripe is a series of connected triangles in a triangular mesh that separate vertices.
 	void drawTriangleList(UINT vertex_count, UINT start_vertex_index);
+	void drawIndexTriangleList(UINT index_count, UINT start_vertex_index, UINT start_index_location);
 
 	
 private:

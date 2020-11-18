@@ -8,7 +8,6 @@
 struct Vertex
 {
 	Vector3D position;
-	Vector3D new_position;
 	Vector3D color;
 	Vector3D new_color;
 };
@@ -29,27 +28,41 @@ void AppWindow::updateQuadPosition()
 
 	constant.time = ::GetTickCount64();
 
-	delta_pos += delta_time / 4.0f;
+	delta_pos += delta_time / 10.0f;
 
 	if (delta_pos > 1.0f)
 	{
 		delta_pos = 0;
 	}
 
-	delta_scale += delta_time / 1.0f;
+	delta_scale += delta_time / 0.55f;
 
 	
 
-	constant.world.setScale(Vector3D::lerp(Vector3D(0.5f, 0.5f, 0), Vector3D(1.0f, 1.0f, 0), (sin(delta_scale) + 1.0f / 2.0f)));
-	temp.setTranslation(Vector3D::lerp(Vector3D(-0.5f, -0.5f, 0), Vector3D(0.5f, 0.5f, 0), delta_pos));
+	//constant.world.setScale(Vector3D::lerp(Vector3D(0.5f, 0.5f, 0), Vector3D(1.0f, 1.0f, 0), (sin(delta_scale) + 1.0f / 2.0f)));
+	//temp.setTranslation(Vector3D::lerp(Vector3D(-0.5f, -0.5f, 0), Vector3D(0.5f, 0.5f, 0), delta_pos));
 	
+	//constant.world *= temp;
+
+	constant.world.setScale(Vector3D(1,1,1));
+
+	temp.setIdentity();
+	temp.setRotationZ(delta_scale);
+	constant.world *= temp;
+
+	temp.setIdentity();
+	temp.setRotationY(delta_scale);
+	constant.world *= temp;
+
+	temp.setIdentity();
+	temp.setRotationX(delta_scale);
 	constant.world *= temp;
 
 	constant.view.setIdentity();
 	constant.projection.setOrtho
 	(
-		(this->getClientWindowRect().right - this->getClientWindowRect().left) / 400.0f,
-		(this->getClientWindowRect().bottom - this->getClientWindowRect().top) / 400.0f,
+		(this->getClientWindowRect().right - this->getClientWindowRect().left) / 200.0f,
+		(this->getClientWindowRect().bottom - this->getClientWindowRect().top) / 200.0f,
 		-4.0f,
 		4.0f
 	);
@@ -71,17 +84,54 @@ void AppWindow::onCreate()
 	
 
 	// {x, y, z} from -1 to 1
-	Vertex list[] =
+	Vertex vertex_list[] =
 	{
-		{Vector3D(-0.3f, -0.2f, 0.0f),   Vector3D(-0.25f, -0.11f, 0.0f),   Vector3D(1, 0, 0),   Vector3D(1, 1, 1)}, // pos1  new_pos1   color1  new_color1
-		{Vector3D(-0.3f, 0.2f, 0.0f),    Vector3D(-0.77f, 0.78f, 0.0f),    Vector3D(0, 1, 1),   Vector3D(0, 0, 1)}, // pos2  new_pos2   color2  new_color2
-		{Vector3D(0.3f, -0.2f, 0.0f),   Vector3D(0.75f, -0.72f, 0.0f),   Vector3D(0, 0, 1),   Vector3D(1, 0, 0)}, // pos3  new_pos3   color3  new_color3
-		{Vector3D(0.3f, 0.2f, 0.0f),     Vector3D(0.82f, 0.79f, 0.0f),     Vector3D(1, 1, 1),   Vector3D(0, 0, 1)}, // pos4  new_pos4   color4  new_color4
 
+		// X-Y-Z
+		// Front face
+		{Vector3D(-0.5f, -0.5f, -0.5f),     Vector3D(1, 0, 0),   Vector3D(1, 1, 1)}, // pos1   color1  new_color1
+		{Vector3D(-0.5f, 0.5f, -0.5f),      Vector3D(0, 1, 1),   Vector3D(0, 0, 1)}, // pos2   color2  new_color2
+		{Vector3D(0.5f, 0.5f, -0.5f),      Vector3D(0, 0, 1),   Vector3D(1, 0, 0)}, // pos3    color3  new_color3
+		{Vector3D(0.5f, -0.5f, -0.5f),       Vector3D(1, 1, 1),   Vector3D(0, 0, 1)}, // pos4   color4  new_color4
+		
+		//Back face
+		{Vector3D(0.5f, -0.5f, 0.5f),     Vector3D(1, 0, 0),   Vector3D(1, 1, 1)}, // pos1   color1  new_color1
+		{Vector3D(0.5f, 0.5f, 0.5f),      Vector3D(0, 1, 1),   Vector3D(0, 0, 1)}, // pos2   color2  new_color2
+		{Vector3D(-0.5f, 0.5f, 0.5f),      Vector3D(0, 0, 1),   Vector3D(1, 0, 0)}, // pos3    color3  new_color3
+		{Vector3D(-0.5f, -0.5f, 0.5f),       Vector3D(1, 1, 1),   Vector3D(0, 0, 1)}, // pos4   color4  new_color4
 	};
 
 	vertex_buffer=GraphicsEngine::get()->createVertexBuffer();
-	UINT size_list = ARRAYSIZE(list);
+	UINT size_list = ARRAYSIZE(vertex_list);
+
+
+	unsigned int index_list[] =
+	{
+		//front side
+		0,1,2,  //1-st triangle
+		2,3,0,  //2-st triangle
+		//back side
+		4,5,6,  //3-st triangle
+		6,7,4,  //4-st triangle
+		//top side
+		1,6,5,
+		5,2,1,
+		//bottom side
+		7,0,3,
+		3,4,7,
+		//right side
+		3,2,5,
+		5,4,3,
+		//left side
+		7,6,1,
+		1,0,7
+	};
+
+	index_buffer = GraphicsEngine::get()->createIndexBuffer();
+	UINT size_index_list = ARRAYSIZE(index_list);
+
+	index_buffer->load(index_list, size_index_list);
+
 
 
 	void* shader_byte_code = nullptr;
@@ -90,7 +140,7 @@ void AppWindow::onCreate()
 	GraphicsEngine::get()->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 	vertex_shader = GraphicsEngine::get()->createVertexShader(shader_byte_code, size_shader);
 
-	vertex_buffer->load(list, sizeof(Vertex), size_list, shader_byte_code, size_shader);
+	vertex_buffer->load(vertex_list, sizeof(Vertex), size_list, shader_byte_code, size_shader);
 
 	GraphicsEngine::get()->releaseCompileShader();
 
@@ -131,9 +181,11 @@ void AppWindow::onUpdate()
 
 	//Set the vertices of the triangle to draw
 	GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(vertex_buffer);
+	//Set the indixes of the triangle to draw
+	GraphicsEngine::get()->getImmediateDeviceContext()->setIndexBuffer(index_buffer);
 
 	// Draw the figure
-	GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(vertex_buffer->getSizeVertexList(), 0);
+	GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexTriangleList(index_buffer->getSizeIndexList(),0, 0);
 
 
 	swap_chain->present(true);
@@ -152,5 +204,7 @@ void AppWindow::onDestroy()
 	swap_chain->release();
 	pixel_shader->release();
 	vertex_shader->release();
+	index_buffer->release();
+	constant_buffer->release();
 	GraphicsEngine::get()->release();
 }

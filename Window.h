@@ -17,7 +17,7 @@ public:
 	//Events
 	virtual void onCreate() = 0;
 	virtual void onUpdate() = 0;
-	virtual void onDestroy() = 0		;
+	virtual void onDestroy() = 0;
 
 	//Sizes
 	RECT getClientWindowRect();

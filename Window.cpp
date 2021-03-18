@@ -21,6 +21,22 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		window->onCreate();
 		break;
 	}
+	case WM_SETFOCUS:
+	{
+		//Event fired when the window will focused
+		Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		window->onFocus();
+		::PostQuitMessage(0);
+		break;
+	}
+	case WM_KILLFOCUS:
+	{
+		//Event fired when the window will lost focused
+		Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		window->onLoseFocus();
+		::PostQuitMessage(0);
+		break;
+	}
 	case WM_DESTROY:
 	{
 		//Event fired when the window will be destroyed
@@ -128,6 +144,14 @@ void Window::onUpdate()
 void Window::onDestroy()
 {
 	is_run = false;
+}
+
+void Window::onFocus()
+{
+}
+
+void Window::onLoseFocus()
+{
 }
 
 RECT Window::getClientWindowRect()

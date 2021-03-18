@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include "Vector3D.h"
 #include "Matrix4x4.h"
+#include "InputSystem.h"
 
 
 
@@ -44,18 +45,18 @@ void AppWindow::updateQuadPosition()
 	
 	//constant.world *= temp;
 
-	constant.world.setScale(Vector3D(1,1,1));
+	constant.world.setScale(Vector3D(scale_cube, scale_cube, scale_cube));
 
 	temp.setIdentity();
-	temp.setRotationZ(delta_scale);
+	temp.setRotationZ(0.0f);
 	constant.world *= temp;
 
 	temp.setIdentity();
-	temp.setRotationY(delta_scale);
+	temp.setRotationY(rotation_y);
 	constant.world *= temp;
 
 	temp.setIdentity();
-	temp.setRotationX(delta_scale);
+	temp.setRotationX(rotation_x);
 	constant.world *= temp;
 
 	constant.view.setIdentity();
@@ -74,6 +75,9 @@ void AppWindow::updateQuadPosition()
 void AppWindow::onCreate()
 {
 	Window::onCreate();
+
+	InputSystem::get()->addListener(this);
+
 	GraphicsEngine::get()->init();
 
 	swap_chain = GraphicsEngine::get()->createSwapChain();
@@ -162,6 +166,9 @@ void AppWindow::onCreate()
 void AppWindow::onUpdate()
 {
 	Window::onUpdate();
+
+	InputSystem::get()->update();
+
 	GraphicsEngine::get()->getImmediateDeviceContext()->clearRenderTargetColor(this->swap_chain, 0, 0.2f, 0.6f, 1);
 
 	//set viewport of render target in which we have to draw
@@ -207,4 +214,65 @@ void AppWindow::onDestroy()
 	index_buffer->release();
 	constant_buffer->release();
 	GraphicsEngine::get()->release();
+}
+
+void AppWindow::onKeyDown(int key)
+{
+	if (key == 'W')
+	{
+		rotation_x += delta_time * 0.9f;
+	}
+	else if (key == 'S')
+	{
+		rotation_x -= delta_time * 0.9f;
+	}
+	else if (key == 'A')
+	{
+		rotation_y += delta_time * 0.9f;
+	}
+	else if (key == 'D')
+	{
+		rotation_y -= delta_time * 0.9f;
+	}
+}
+
+void AppWindow::onKeyUp(int key)
+{
+}
+
+void AppWindow::onMouseMove(const Point& delta_mouse_pos)
+{
+	rotation_x -= delta_mouse_pos.y * delta_time;
+	rotation_y -= delta_mouse_pos.x * delta_time;
+}
+
+void AppWindow::onLeftMouseDown(const Point& mouse_pos)
+{
+	scale_cube = 0.5f;
+}
+
+void AppWindow::onLeftMouseUp(const Point& mouse_pos)
+{
+	scale_cube = 1;
+}
+
+void AppWindow::onRightMouseDown(const Point& mouse_pos)
+{
+	scale_cube = 1;
+}
+
+void AppWindow::onRightMouseUp(const Point& mouse_pos)
+{
+	scale_cube = 2;
+}
+
+void AppWindow::onFocus()
+{
+	InputSystem::get()->addListener(this);
+
+}
+
+void AppWindow::onLoseFocus()
+{
+	InputSystem::get()->removeListener(this);
 }

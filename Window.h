@@ -18,6 +18,8 @@ public:
 	virtual void onCreate() = 0;
 	virtual void onUpdate() = 0;
 	virtual void onDestroy() = 0;
+	virtual void onFocus();
+	virtual void onLoseFocus();
 
 	//Sizes
 	RECT getClientWindowRect();

@@ -37,6 +37,9 @@
     <Filter Include="3DEngine\GraphicsEngine\IndexBuffer">
       <UniqueIdentifier>{8997a776-00ff-4ed2-8c19-a703ec572173}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3DEngine\InputSystem">
+      <UniqueIdentifier>{fa57687a-1086-4cf3-aced-6670b58ef696}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -71,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="IndexBuffer.cpp">
       <Filter>3DEngine\GraphicsEngine\IndexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>3DEngine\InputSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +115,15 @@
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">
       <Filter>3DEngine\GraphicsEngine\IndexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>3DEngine\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="InputListener.h">
+      <Filter>3DEngine\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="MousePoint.h">
+      <Filter>3DEngine\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
